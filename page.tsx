@@ -29,7 +29,6 @@ export default function Page() {
     setResult(null)
     setError(null)
     setCurrentSaved(false)
-    // Brief delay so the scanning animation reads as active work.
     setTimeout(() => {
       setResult(analyzeContract(contract))
       setAnalyzing(false)
@@ -57,8 +56,12 @@ export default function Page() {
     setSaved((prev) => prev.filter((s) => s.id !== id))
   }
 
+  function handleUpgrade() {
+    window.open('https://test.dodopayments.com/buy/pdt_01JMWP31E18751N0QG90226Z2P', '_blank')
+  }
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar active={tab} onChange={setTab} savedCount={saved.length} />
 
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
@@ -77,47 +80,45 @@ export default function Page() {
                 role="status"
                 aria-live="polite"
               >
-                <div className="flex gap-1.5">
-                  <span className="size-2.5 animate-bounce rounded-full bg-primary [animation-delay:-0.3s]" />
-                  <span className="size-2.5 animate-bounce rounded-full bg-primary [animation-delay:-0.15s]" />
-                  <span className="size-2.5 animate-bounce rounded-full bg-primary" />
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Scanning clauses, liabilities, and missing protections…
-                </p>
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <p className="text-sm text-muted-foreground font-mono">Analyzing clauses & risk vectors...</p>
               </div>
             )}
 
-            {!analyzing && error && (
-              <div
-                className="animate-fade-up rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive"
-                role="alert"
-              >
-                {error}
-              </div>
+            {error && (
+              <p className="text-sm font-medium text-destructive">{error}</p>
             )}
 
-            {!analyzing && result && (
-              <AnalysisDashboard result={result} onSave={handleSave} isSaved={currentSaved} />
+            {result && !analyzing && (
+              <AnalysisDashboard
+                result={result}
+                contract={contract}
+                onSave={handleSave}
+                isSaved={currentSaved}
+                onUpgrade={handleUpgrade}
+              />
             )}
           </div>
         )}
 
-        {tab === 'pricing' && <PricingTab onUpgrade={() => setCheckoutOpen(true)} />}
+        {tab === 'pricing' && (
+          <PricingTab onCheckout={handleUpgrade} />
+        )}
 
         {tab === 'saved' && (
-          <SavedScansTab scans={saved} onOpen={handleOpenSaved} onDelete={handleDeleteSaved} />
+          <SavedScansTab
+            scans={saved}
+            onOpen={handleOpenSaved}
+            onDelete={handleDeleteSaved}
+          />
         )}
       </main>
 
-      <footer className="border-t border-border/70 py-6">
-        <p className="mx-auto max-w-6xl px-4 text-center text-xs text-muted-foreground sm:px-6">
-          ContractGuard provides automated risk analysis for informational purposes only and is not a
-          substitute for professional legal advice.
-        </p>
-      </footer>
-
-      <CheckoutModal open={checkoutOpen} onOpenChange={setCheckoutOpen} />
+      <CheckoutModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        onProceed={handleUpgrade}
+      />
     </div>
   )
 }
