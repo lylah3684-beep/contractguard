@@ -31,9 +31,8 @@ export function CheckoutModal({
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setStage('processing')
-    setTimeout(() => setStage('done'), 1600)
+  e.preventDefault()
+  window.open('https://checkout.dodopayments.com/buy/pdt_0NmEFB7QbkXm1z5WJxUIW?quantity=1', '_blank')
   }
 
   return (
