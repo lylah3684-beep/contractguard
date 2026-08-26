@@ -109,7 +109,7 @@ export default function Page() {
   }
 
   function handleUpgrade() {
-    window.open('https://test.dodopayments.com/buy/pdt_01JMWP31E18751N0QG90226Z2P', '_blank')
+    window.open('https://checkout.dodopayments.com/buy/pdt_0NmEFB7QbkXm1z5WJxUIW?quantity=1', '_blank')
   }
 
   return (
