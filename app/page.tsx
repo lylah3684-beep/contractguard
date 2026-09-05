@@ -33,6 +33,8 @@ For a period of three (3) years following the termination of this Agreement for 
 4. INDEMNIFICATION & LIABILITY
 The Receiving Party shall indemnify, defend, and hold harmless the Company, its officers, directors, employees, and affiliates from and against any and all claims, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or resulting from any breach of this Agreement. The Company's total liability under this Agreement shall be limited to $50.`
 
+const PAYMENT_LINK = 'https://checkout.dodopayments.com/buy/pdt_0NmEFB7QbkXm1z5WJxUIW?quantity=1'
+
 function analyzeContract(text: string): AnalysisResult {
   const risks: RiskItem[] = []
   const lower = text.toLowerCase()
@@ -226,7 +228,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* Pricing Card */}
+        {/* Pricing Card with Live Dodo Checkout Link */}
         <div id="pricing" style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', border: '1px solid rgba(37, 99, 235, 0.3)', borderRadius: '14px', padding: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
           <div>
             <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff' }}>ContractGuard Pro</div>
@@ -237,9 +239,14 @@ export default function Home() {
               <span style={{ fontSize: '24px', fontWeight: '800', color: '#fff' }}>$19</span>
               <span style={{ fontSize: '10px', color: '#64748b', display: 'block' }}>one-time</span>
             </div>
-            <button style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.3)' }}>
+            <a 
+              href={PAYMENT_LINK}
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '12px', fontWeight: '700', display: 'inline-block', boxShadow: '0 4px 12px rgba(37,99,235,0.3)' }}
+            >
               Get Pro Access
-            </button>
+            </a>
           </div>
         </div>
 
@@ -247,5 +254,5 @@ export default function Home() {
 
     </div>
   )
-                       }
-            
+        }
+              
