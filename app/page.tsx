@@ -104,203 +104,148 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-blue-600/30">
+    <div style={{ minHeight: '100vh', backgroundColor: '#070b14', color: '#f1f5f9', fontFamily: 'system-ui, -apple-system, sans-serif', margin: 0, paddingBottom: '40px' }}>
       
-      {/* Top SaaS Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-800/80 bg-[#070b14]/90 px-4 py-3 backdrop-blur-md md:px-8">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-inner">
+      {/* Top Header */}
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(7, 11, 20, 0.95)', position: 'sticky', top: 0, zIndex: 50 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ width: '34px', height: '34px', borderRadius: '10px', backgroundColor: 'rgba(37,99,235,0.18)', border: '1px solid rgba(59,130,246,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>
             🛡️
           </div>
-          <div className="flex items-center gap-2">
-            <span className="font-bold tracking-tight text-white text-base md:text-lg">ContractGuard</span>
-            <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-blue-400 border border-blue-500/20 tracking-wide">
-              AI AUDITOR
-            </span>
+          <span style={{ fontWeight: '700', fontSize: '17px', color: '#ffffff', letterSpacing: '-0.3px' }}>ContractGuard</span>
+          <span style={{ fontSize: '10px', fontWeight: '700', color: '#60a5fa', backgroundColor: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.25)', padding: '2px 8px', borderRadius: '999px', letterSpacing: '0.5px' }}>
+            AI AUDITOR
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '32px', height: '32px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', position: 'relative', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            🔔
+            <span style={{ position: 'absolute', top: '-2px', right: '-2px', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6' }}></span>
           </div>
-        </div>
 
-        {/* Center Search Input */}
-        <div className="hidden md:flex items-center gap-2 rounded-xl border border-slate-800/90 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-400 w-80 shadow-sm focus-within:border-blue-500/40">
-          <span>🔍</span>
-          <input 
-            type="text" 
-            placeholder="Search clauses, terms, or audits..." 
-            className="bg-transparent text-slate-200 placeholder-slate-500 outline-none w-full"
-            readOnly
-          />
-          <kbd className="rounded border border-slate-700/80 bg-slate-800/90 px-1.5 py-0.5 text-[10px] font-mono text-slate-400">⌘K</kbd>
-        </div>
-
-        {/* Right Actions */}
-        <div className="flex items-center gap-3">
-          <button className="relative rounded-xl border border-slate-800/90 bg-slate-900/60 p-2 text-slate-300 hover:text-white transition">
-            <span className="text-sm">🔔</span>
-            <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-blue-600 text-[9px] font-bold text-white shadow-sm">
-              2
-            </span>
-          </button>
-          
-          <a 
-            href="#pricing" 
-            className="rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-700 transition"
-          >
+          <a href="#pricing" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '12px', padding: '6px 12px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.04)' }}>
             Pricing
           </a>
 
-          <div className="flex items-center pl-2 border-l border-slate-800">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-xs font-bold text-white shadow-sm ring-2 ring-blue-500/20">
-              CG
-            </div>
+          <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'linear-gradient(135deg, #2563eb, #6366f1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold', color: '#fff', border: '2px solid rgba(255,255,255,0.15)' }}>
+            CG
           </div>
         </div>
       </header>
 
-      {/* Main Dashboard Canvas */}
-      <main className="flex-1 px-4 py-6 md:px-8 max-w-7xl mx-auto w-full">
+      {/* Main Container */}
+      <main style={{ maxWidth: '850px', margin: '0 auto', padding: '24px 16px' }}>
         
-        {/* Status Strip */}
-        <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-slate-800/60 pb-5">
+        {/* Title & Engine status */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
           <div>
-            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-              Contract Risk Analysis
-            </h1>
-            <p className="text-xs md:text-sm text-slate-400 mt-0.5">
-              Paste agreement text below to scan for predatory clauses and high-risk terms.
-            </p>
+            <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 4px 0' }}>AI Contract Risk Audit</h1>
+            <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>Paste agreement text below to scan for predatory clauses and high-risk terms.</p>
+          </div>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: '600', color: '#34d399', backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', padding: '4px 10px', borderRadius: '999px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#34d399' }}></span>
+            Engine Ready
+          </span>
+        </div>
+
+        {/* Editor Box */}
+        <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.75)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            <span>Document Editor</span>
+            <button onClick={() => setContractText(SAMPLE_CONTRACT)} style={{ background: 'none', border: 'none', color: '#60a5fa', cursor: 'pointer', fontSize: '11px', fontWeight: '600', padding: 0 }}>
+              Reset Sample
+            </button>
           </div>
 
-          <div className="flex items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 border border-emerald-500/20">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              AI Engine Ready
-            </span>
+          <textarea 
+            value={contractText}
+            onChange={(e) => setContractText(e.target.value)}
+            style={{ width: '100%', boxSizing: 'border-box', height: '220px', backgroundColor: '#050811', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '12px', color: '#e2e8f0', fontSize: '12px', fontFamily: 'monospace', lineHeight: '1.6', resize: 'vertical', outline: 'none' }}
+            placeholder="Paste contract text here..."
+          />
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', flexWrap: 'wrap', gap: '10px' }}>
+            <span style={{ fontSize: '11px', color: '#64748b' }}>Auto-detected: NDA / IP Assignment</span>
+            <button
+              onClick={handleAnalyze}
+              disabled={isAnalyzing}
+              style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(37,99,235,0.4)', opacity: isAnalyzing ? 0.6 : 1 }}
+            >
+              {isAnalyzing ? 'Scanning Contract...' : '⚡ Analyze Risks Now'}
+            </button>
           </div>
         </div>
 
-        {/* 2-Column Responsive Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          
-          {/* Left Column: Contract Editor Area (7 Cols) */}
-          <div className="lg:col-span-7 flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-4 shadow-xl backdrop-blur-sm">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Document Editor</span>
-              <button 
-                onClick={() => setContractText(SAMPLE_CONTRACT)}
-                className="text-xs text-blue-400 hover:text-blue-300 font-medium"
-              >
-                Reset Sample
-              </button>
+        {/* Analysis Results Area */}
+        {result ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+            {/* Score Card */}
+            <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.3)', borderLeft: '4px solid #ef4444', borderRadius: '14px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <span style={{ fontSize: '11px', fontWeight: '700', color: '#f87171', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Overall Assessment</span>
+                <h2 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', margin: '2px 0 0 0' }}>HIGH RISK</h2>
+                <p style={{ fontSize: '12px', color: '#cbd5e1', margin: '4px 0 0 0' }}>{result.summary}</p>
+              </div>
+              <div style={{ textAlign: 'right', minWidth: '70px' }}>
+                <span style={{ fontSize: '32px', fontWeight: '900', color: '#f87171' }}>{result.score}</span>
+                <span style={{ fontSize: '12px', color: '#64748b' }}>/100</span>
+              </div>
             </div>
 
-            <textarea 
-              value={contractText}
-              onChange={(e) => setContractText(e.target.value)}
-              className="h-96 w-full rounded-xl border border-slate-800/90 bg-[#050811] p-3.5 text-xs font-mono text-slate-300 focus:border-blue-500 focus:outline-none resize-none leading-relaxed"
-              placeholder="Paste contract text here..."
-            />
+            {/* Vulnerabilities */}
+            <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.75)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '16px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', letterSpacing: '0.5px' }}>
+                Identified Vulnerabilities ({result.risks.length})
+              </div>
 
-            <div className="mt-4 flex items-center justify-between">
-              <span className="text-[11px] text-slate-500">Auto-detected: NDA / IP Assignment</span>
-              <button
-                onClick={handleAnalyze}
-                disabled={isAnalyzing}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-xs font-semibold text-white shadow-lg shadow-blue-600/25 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 transition active:scale-95"
-              >
-                {isAnalyzing ? (
-                  <>Scanning Contract...</>
-                ) : (
-                  <>⚡ Analyze Risks Now</>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Score Gauge & Vulnerabilities (5 Cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-5">
-            
-            {result ? (
-              <>
-                {/* Risk Score Card */}
-                <div className="rounded-2xl border border-red-900/40 bg-gradient-to-br from-red-950/20 via-slate-900/60 to-slate-900/90 p-5 shadow-xl border-l-4 border-l-red-500">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-red-400">Overall Assessment</span>
-                      <h2 className="text-lg font-bold text-white mt-0.5">HIGH RISK</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {result.risks.map((risk) => (
+                  <div key={risk.id} style={{ backgroundColor: '#060a14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff' }}>⚠️ {risk.title}</span>
+                      <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', fontSize: '9px', fontWeight: '700', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                        {risk.riskLevel}
+                      </span>
                     </div>
-                    <div className="text-right">
-                      <span className="text-3xl font-extrabold text-red-400">{result.score}</span>
-                      <span className="text-xs text-slate-500 font-medium">/100</span>
+                    <p style={{ fontSize: '11px', color: '#94a3b8', margin: '6px 0' }}>{risk.description}</p>
+                    <div style={{ backgroundColor: 'rgba(37, 99, 235, 0.1)', border: '1px solid rgba(37, 99, 235, 0.2)', padding: '6px 10px', borderRadius: '6px', fontSize: '11px', color: '#93c5fd' }}>
+                      💡 <strong>Fix:</strong> {risk.recommendation}
                     </div>
                   </div>
-                  <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                    {result.summary}
-                  </p>
-                </div>
-
-                {/* Identified Vulnerabilities */}
-                <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 shadow-xl">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-                    Identified Vulnerabilities ({result.risks.length})
-                  </h3>
-
-                  <div className="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">
-                    {result.risks.map((risk) => (
-                      <div key={risk.id} className="rounded-xl border border-slate-800/90 bg-[#060a14] p-3 hover:border-slate-700 transition">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-semibold text-white flex items-center gap-1.5">
-                            ⚠️ {risk.title}
-                          </span>
-                          <span className="rounded bg-red-500/10 px-1.5 py-0.5 text-[9px] font-bold text-red-400 border border-red-500/20">
-                            {risk.riskLevel}
-                          </span>
-                        </div>
-                        <p className="mt-1.5 text-[11px] text-slate-400 leading-normal">
-                          {risk.description}
-                        </p>
-                        <div className="mt-2 rounded-lg bg-blue-950/30 p-2 text-[10px] text-blue-300 border border-blue-900/30">
-                          💡 <span className="font-semibold">Fix:</span> {risk.recommendation}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            ) : (
-              /* Empty Preview State before clicking scan */
-              <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/20 p-8 text-center flex flex-col items-center justify-center min-h-[340px]">
-                <div className="h-12 w-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-xl mb-3">
-                  🛡️
-                </div>
-                <h3 className="text-sm font-semibold text-white">No Audit Running</h3>
-                <p className="text-xs text-slate-400 mt-1 max-w-xs">
-                  Click 'Analyze Risks Now' to trigger our legal engine and generate a vulnerability report.
-                </p>
+                ))}
               </div>
-            )}
-
-            {/* Pro Upgrade Card */}
-            <div id="pricing" className="rounded-2xl border border-blue-900/30 bg-gradient-to-br from-blue-950/30 via-slate-900/80 to-slate-900 p-5 shadow-xl">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-white">ContractGuard Pro</h3>
-                  <p className="text-[11px] text-slate-400">Unlimited scans & redline export</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-2xl font-bold text-white">$19</span>
-                  <span className="text-[10px] text-slate-400 block">one-time</span>
-                </div>
-              </div>
-              <button className="mt-4 w-full rounded-xl bg-blue-600 py-2.5 text-xs font-semibold text-white hover:bg-blue-500 shadow-md shadow-blue-600/20 transition">
-                Get Pro Access
-              </button>
             </div>
-
           </div>
+        ) : (
+          /* Empty state */
+          <div style={{ border: '1px dashed rgba(255,255,255,0.12)', borderRadius: '14px', padding: '32px 16px', textAlign: 'center', marginBottom: '24px', backgroundColor: 'rgba(255,255,255,0.01)' }}>
+            <div style={{ fontSize: '24px', marginBottom: '8px' }}>🛡️</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#fff' }}>No Audit Running</div>
+            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>Tap 'Analyze Risks Now' to run full legal diagnostics.</div>
+          </div>
+        )}
 
+        {/* Pricing Card */}
+        <div id="pricing" style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', border: '1px solid rgba(37, 99, 235, 0.3)', borderRadius: '14px', padding: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff' }}>ContractGuard Pro</div>
+            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Unlimited legal scans, PDF export & redline assistant</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div>
+              <span style={{ fontSize: '24px', fontWeight: '800', color: '#fff' }}>$19</span>
+              <span style={{ fontSize: '10px', color: '#64748b', display: 'block' }}>one-time</span>
+            </div>
+            <button style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '12px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 12px rgba(37,99,235,0.3)' }}>
+              Get Pro Access
+            </button>
+          </div>
         </div>
+
       </main>
 
     </div>
   )
-}
+                       }
+            
