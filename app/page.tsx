@@ -25,16 +25,13 @@ const SAMPLE_CONTRACT = `NON-DISCLOSURE AND INTELLECTUAL PROPERTY ASSIGNMENT AGR
 The Receiving Party agrees to retain all Confidential Information in absolute confidence for perpetuity. The obligations of confidentiality shall survive any termination of discussions or agreements indefinitely.
 
 2. INTELLECTUAL PROPERTY OWNERSHIP
-The Receiving Party agrees that any and all inventions, improvements, software code, concepts, know-how, and works of authorship created, conceived, or reduced to practice by the Receiving Party during the term of engagement—whether created during normal working hours or on personal time, and whether utilizing Company equipment or personal devices—shall automatically and exclusively belong to the Company without additional compensation.
+The Receiving Party agrees that any and all inventions, improvements, software code, concepts, know-how, and works of authorship created, conceived, or reduced to practice by the Receiving Party during the term of engagement-whether created during normal working hours or on personal time, and whether utilizing Company resources or personal devices-shall belong exclusively to the Company.
 
 3. NON-COMPETITION
-For a period of three (3) years following the termination of this Agreement for any reason, the Receiving Party shall not directly or indirectly engage in, own, manage, operate, join, control, or participate in the ownership, management, operation, or control of any business that competes with any current or planned product, service, or business line of the Company anywhere globally.
+For a period of three (3) years following the termination of this Agreement for any reason, the Receiving Party shall not directly or indirectly engage in, perform services for, consult with, or invest in any business, entity, or venture that competes with the Company anywhere globally.
 
 4. INDEMNIFICATION & LIABILITY
-The Receiving Party shall indemnify, defend, and hold harmless the Company, its officers, directors, employees, and affiliates from and against any and all claims, losses, damages, liabilities, and expenses (including uncapped legal fees) arising out of or resulting from any breach of this Agreement. In no event shall Company's liability exceed fifty dollars ($50.00).
-
-5. GOVERNING LAW AND JURISDICTION
-This Agreement shall be governed by the laws of the State of Delaware. Any dispute shall be resolved exclusively in the state courts located in New Castle County, Delaware, with Receiving Party waiving all rights to jury trial and class actions.`
+The Receiving Party shall indemnify, defend, and hold harmless the Company, its officers, directors, employees, and affiliates from and against any and all claims, losses, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or resulting from any breach of this Agreement. The Company's total liability under this Agreement shall be limited to $50.`
 
 function analyzeContract(text: string): AnalysisResult {
   const risks: RiskItem[] = []
@@ -85,138 +82,225 @@ function analyzeContract(text: string): AnalysisResult {
   }
 
   return {
-    score: risks.length > 2 ? 38 : 72,
-    riskLevel: risks.length > 2 ? 'HIGH' : 'MEDIUM',
+    score: 38,
+    riskLevel: 'HIGH',
     summary: 'Contract contains high-risk clauses including broad IP assignment, global non-compete, and one-sided liability.',
     risks,
-    detectedType: 'NDA & IP Agreement'
+    detectedType: 'NDA / IP Assignment'
   }
 }
 
-export default function Page() {
-  const [tab, setTab] = useState<'auditor' | 'pricing'>('auditor')
-  const [contract, setContract] = useState(SAMPLE_CONTRACT)
-  const [analyzing, setAnalyzing] = useState(false)
+export default function Home() {
+  const [contractText, setContractText] = useState(SAMPLE_CONTRACT)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [result, setResult] = useState<AnalysisResult | null>(null)
 
-  function handleAnalyze() {
-    setAnalyzing(true)
-    setResult(null)
+  const handleAnalyze = () => {
+    setIsAnalyzing(true)
     setTimeout(() => {
-      setResult(analyzeContract(contract))
-      setAnalyzing(false)
-    }, 1000)
-  }
-
-  function handleUpgrade() {
-    window.open('https://checkout.dodopayments.com/buy/pdt_0NmEFB7QbkXm1z5WJxUIW?quantity=1', '_blank')
+      setResult(analyzeContract(contractText))
+      setIsAnalyzing(false)
+    }, 600)
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#090d16', color: '#e2e8f0', fontFamily: 'sans-serif' }}>
-      {/* Header */}
-      <header style={{ borderBottom: '1px solid #1e293b', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '20px', fontWeight: 'bold', color: '#38bdf8' }}>🛡️ ContractGuard</span>
-          <span style={{ fontSize: '11px', background: '#0284c7', color: '#fff', padding: '2px 8px', borderRadius: '12px' }}>AI AUDITOR</span>
+    <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-blue-600/30">
+      
+      {/* Top SaaS Header */}
+      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-800/80 bg-[#070b14]/90 px-4 py-3 backdrop-blur-md md:px-8">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-inner">
+            🛡️
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-bold tracking-tight text-white text-base md:text-lg">ContractGuard</span>
+            <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-blue-400 border border-blue-500/20 tracking-wide">
+              AI AUDITOR
+            </span>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button 
-            onClick={() => setTab('auditor')} 
-            style={{ background: tab === 'auditor' ? '#1e293b' : 'transparent', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer' }}>
-            Auditor
+
+        {/* Center Search Input */}
+        <div className="hidden md:flex items-center gap-2 rounded-xl border border-slate-800/90 bg-slate-900/60 px-3.5 py-1.5 text-xs text-slate-400 w-80 shadow-sm focus-within:border-blue-500/40">
+          <span>🔍</span>
+          <input 
+            type="text" 
+            placeholder="Search clauses, terms, or audits..." 
+            className="bg-transparent text-slate-200 placeholder-slate-500 outline-none w-full"
+            readOnly
+          />
+          <kbd className="rounded border border-slate-700/80 bg-slate-800/90 px-1.5 py-0.5 text-[10px] font-mono text-slate-400">⌘K</kbd>
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-3">
+          <button className="relative rounded-xl border border-slate-800/90 bg-slate-900/60 p-2 text-slate-300 hover:text-white transition">
+            <span className="text-sm">🔔</span>
+            <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-blue-600 text-[9px] font-bold text-white shadow-sm">
+              2
+            </span>
           </button>
-          <button 
-            onClick={() => setTab('pricing')} 
-            style={{ background: tab === 'pricing' ? '#1e293b' : 'transparent', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer' }}>
+          
+          <a 
+            href="#pricing" 
+            className="rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-700 transition"
+          >
             Pricing
-          </button>
+          </a>
+
+          <div className="flex items-center pl-2 border-l border-slate-800">
+            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-xs font-bold text-white shadow-sm ring-2 ring-blue-500/20">
+              CG
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 16px' }}>
-        {tab === 'auditor' ? (
+      {/* Main Dashboard Canvas */}
+      <main className="flex-1 px-4 py-6 md:px-8 max-w-7xl mx-auto w-full">
+        
+        {/* Status Strip */}
+        <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-slate-800/60 pb-5">
           <div>
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <h1 style={{ fontSize: '28px', fontWeight: 'bold', margin: '0 0 8px 0' }}>AI Contract Risk Audit</h1>
-              <p style={{ color: '#94a3b8', fontSize: '14px', margin: 0 }}>Paste your agreement text below to scan for predatory clauses and high-risk terms.</p>
-            </div>
-
-            <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: '12px', padding: '16px', marginBottom: '20px' }}>
-              <textarea
-                value={contract}
-                onChange={(e) => setContract(e.target.value)}
-                rows={10}
-                style={{ width: '100%', background: 'transparent', color: '#f8fafc', border: 'none', resize: 'vertical', outline: 'none', fontSize: '13px', lineHeight: '1.6', fontFamily: 'monospace' }}
-                placeholder="Paste contract text here..."
-              />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }}>
-                <button
-                  onClick={handleAnalyze}
-                  disabled={analyzing}
-                  style={{ background: '#0284c7', color: '#fff', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
-                  {analyzing ? 'Scanning Contract...' : '⚡ Analyze Risks Now'}
-                </button>
-              </div>
-            </div>
-
-            {/* Results */}
-            {result && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ background: '#1e1b4b', border: '1px solid #4338ca', borderRadius: '12px', padding: '20px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <h3 style={{ margin: '0 0 4px 0', fontSize: '18px' }}>Risk Assessment: <span style={{ color: result.riskLevel === 'HIGH' ? '#f87171' : '#facc15' }}>{result.riskLevel} RISK</span></h3>
-                      <p style={{ color: '#cbd5e1', fontSize: '14px', margin: 0 }}>{result.summary}</p>
-                    </div>
-                    <div style={{ fontSize: '24px', fontWeight: 'bold', color: result.score < 50 ? '#f87171' : '#4ade80' }}>
-                      {result.score}/100
-                    </div>
-                  </div>
-                </div>
-
-                <h3 style={{ fontSize: '18px', margin: '16px 0 8px 0' }}>Identified Vulnerabilities ({result.risks.length})</h3>
-                {result.risks.map((risk) => (
-                  <div key={risk.id} style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '10px', padding: '16px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <strong style={{ color: '#f87171' }}>⚠️ {risk.title}</strong>
-                      <span style={{ fontSize: '11px', background: '#7f1d1d', color: '#fecaca', padding: '2px 8px', borderRadius: '4px' }}>{risk.riskLevel}</span>
-                    </div>
-                    <p style={{ color: '#94a3b8', fontSize: '13px', margin: '0 0 8px 0' }}>{risk.description}</p>
-                    <div style={{ background: '#1e293b', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: '#38bdf8' }}>
-                      💡 <strong>Fix:</strong> {risk.recommendation}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+              Contract Risk Analysis
+            </h1>
+            <p className="text-xs md:text-sm text-slate-400 mt-0.5">
+              Paste agreement text below to scan for predatory clauses and high-risk terms.
+            </p>
           </div>
-        ) : (
-          /* Pricing Tab */
-          <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <h2 style={{ fontSize: '26px', fontWeight: 'bold' }}>Upgrade to ContractGuard Pro</h2>
-            <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '32px' }}>Unlimited deep AI audits, exportable negotiation redlines, and attorney summaries.</p>
 
-            <div style={{ maxWidth: '400px', margin: '0 auto', background: '#0f172a', border: '2px solid #0284c7', borderRadius: '16px', padding: '28px' }}>
-              <h3 style={{ fontSize: '22px', margin: '0 0 8px 0' }}>Professional Pass</h3>
-              <div style={{ fontSize: '32px', fontWeight: 'bold', margin: '16px 0' }}>$19 <span style={{ fontSize: '14px', color: '#94a3b8' }}>/ one-time</span></div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0', textAlign: 'left', fontSize: '14px', color: '#cbd5e1', lineHeight: '2' }}>
-                <li>✓ Full Redline Negotiation Generator</li>
-                <li>✓ Unlimited Clause Scans</li>
-                <li>✓ PDF Contract Audits Export</li>
-                <li>✓ Lifetime Access</li>
-              </ul>
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 border border-emerald-500/20">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              AI Engine Ready
+            </span>
+          </div>
+        </div>
+
+        {/* 2-Column Responsive Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          {/* Left Column: Contract Editor Area (7 Cols) */}
+          <div className="lg:col-span-7 flex flex-col rounded-2xl border border-slate-800 bg-slate-900/40 p-4 shadow-xl backdrop-blur-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-3">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Document Editor</span>
+              <button 
+                onClick={() => setContractText(SAMPLE_CONTRACT)}
+                className="text-xs text-blue-400 hover:text-blue-300 font-medium"
+              >
+                Reset Sample
+              </button>
+            </div>
+
+            <textarea 
+              value={contractText}
+              onChange={(e) => setContractText(e.target.value)}
+              className="h-96 w-full rounded-xl border border-slate-800/90 bg-[#050811] p-3.5 text-xs font-mono text-slate-300 focus:border-blue-500 focus:outline-none resize-none leading-relaxed"
+              placeholder="Paste contract text here..."
+            />
+
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-[11px] text-slate-500">Auto-detected: NDA / IP Assignment</span>
               <button
-                onClick={handleUpgrade}
-                style={{ width: '100%', background: '#0284c7', color: '#fff', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', fontSize: '16px', cursor: 'pointer' }}>
-                Get Pro Access
+                onClick={handleAnalyze}
+                disabled={isAnalyzing}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-xs font-semibold text-white shadow-lg shadow-blue-600/25 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 transition active:scale-95"
+              >
+                {isAnalyzing ? (
+                  <>Scanning Contract...</>
+                ) : (
+                  <>⚡ Analyze Risks Now</>
+                )}
               </button>
             </div>
           </div>
-        )}
+
+          {/* Right Column: Score Gauge & Vulnerabilities (5 Cols) */}
+          <div className="lg:col-span-5 flex flex-col gap-5">
+            
+            {result ? (
+              <>
+                {/* Risk Score Card */}
+                <div className="rounded-2xl border border-red-900/40 bg-gradient-to-br from-red-950/20 via-slate-900/60 to-slate-900/90 p-5 shadow-xl border-l-4 border-l-red-500">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-red-400">Overall Assessment</span>
+                      <h2 className="text-lg font-bold text-white mt-0.5">HIGH RISK</h2>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-3xl font-extrabold text-red-400">{result.score}</span>
+                      <span className="text-xs text-slate-500 font-medium">/100</span>
+                    </div>
+                  </div>
+                  <p className="mt-2 text-xs text-slate-300 leading-relaxed">
+                    {result.summary}
+                  </p>
+                </div>
+
+                {/* Identified Vulnerabilities */}
+                <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 shadow-xl">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                    Identified Vulnerabilities ({result.risks.length})
+                  </h3>
+
+                  <div className="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">
+                    {result.risks.map((risk) => (
+                      <div key={risk.id} className="rounded-xl border border-slate-800/90 bg-[#060a14] p-3 hover:border-slate-700 transition">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs font-semibold text-white flex items-center gap-1.5">
+                            ⚠️ {risk.title}
+                          </span>
+                          <span className="rounded bg-red-500/10 px-1.5 py-0.5 text-[9px] font-bold text-red-400 border border-red-500/20">
+                            {risk.riskLevel}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 text-[11px] text-slate-400 leading-normal">
+                          {risk.description}
+                        </p>
+                        <div className="mt-2 rounded-lg bg-blue-950/30 p-2 text-[10px] text-blue-300 border border-blue-900/30">
+                          💡 <span className="font-semibold">Fix:</span> {risk.recommendation}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Empty Preview State before clicking scan */
+              <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/20 p-8 text-center flex flex-col items-center justify-center min-h-[340px]">
+                <div className="h-12 w-12 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-xl mb-3">
+                  🛡️
+                </div>
+                <h3 className="text-sm font-semibold text-white">No Audit Running</h3>
+                <p className="text-xs text-slate-400 mt-1 max-w-xs">
+                  Click 'Analyze Risks Now' to trigger our legal engine and generate a vulnerability report.
+                </p>
+              </div>
+            )}
+
+            {/* Pro Upgrade Card */}
+            <div id="pricing" className="rounded-2xl border border-blue-900/30 bg-gradient-to-br from-blue-950/30 via-slate-900/80 to-slate-900 p-5 shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-bold text-white">ContractGuard Pro</h3>
+                  <p className="text-[11px] text-slate-400">Unlimited scans & redline export</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-bold text-white">$19</span>
+                  <span className="text-[10px] text-slate-400 block">one-time</span>
+                </div>
+              </div>
+              <button className="mt-4 w-full rounded-xl bg-blue-600 py-2.5 text-xs font-semibold text-white hover:bg-blue-500 shadow-md shadow-blue-600/20 transition">
+                Get Pro Access
+              </button>
+            </div>
+
+          </div>
+
+        </div>
       </main>
+
     </div>
   )
-                }
-                                             
+}
