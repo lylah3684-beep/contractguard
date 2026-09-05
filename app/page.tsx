@@ -96,6 +96,9 @@ export default function Home() {
   const [contractText, setContractText] = useState(SAMPLE_CONTRACT)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [result, setResult] = useState<AnalysisResult | null>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [showProfileMenu, setShowProfileMenu] = useState(false)
+  const [userEmail, setUserEmail] = useState('freelancer@design.studio')
 
   const handleAnalyze = () => {
     setIsAnalyzing(true)
@@ -106,153 +109,207 @@ export default function Home() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#070b14', color: '#f1f5f9', fontFamily: 'system-ui, -apple-system, sans-serif', margin: 0, paddingBottom: '40px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#070b12', color: '#f1f5f9', fontFamily: 'system-ui, -apple-system, sans-serif', paddingBottom: '60px' }}>
       
-      {/* Top Header */}
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(7, 11, 20, 0.95)', position: 'sticky', top: 0, zIndex: 50 }}>
+      {/* Top Navbar */}
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderBottom: '1px solid rgba(255,255,255,0.07)', backgroundColor: 'rgba(7, 11, 18, 0.92)', position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(10px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '34px', height: '34px', borderRadius: '10px', backgroundColor: 'rgba(37,99,235,0.18)', border: '1px solid rgba(59,130,246,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, rgba(234,179,8,0.2), rgba(59,130,246,0.2))', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', boxShadow: '0 0 15px rgba(234,179,8,0.15)' }}>
             🛡️
           </div>
-          <span style={{ fontWeight: '700', fontSize: '17px', color: '#ffffff', letterSpacing: '-0.3px' }}>ContractGuard</span>
-          <span style={{ fontSize: '10px', fontWeight: '700', color: '#60a5fa', backgroundColor: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.25)', padding: '2px 8px', borderRadius: '999px', letterSpacing: '0.5px' }}>
-            AI AUDITOR
+          <span style={{ fontWeight: '800', fontSize: '17px', color: '#ffffff', letterSpacing: '-0.4px' }}>ContractGuard</span>
+          <span style={{ fontSize: '10px', fontWeight: '800', color: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.12)', border: '1px solid rgba(56,189,248,0.3)', padding: '2px 8px', borderRadius: '999px' }}>
+            STUDIO PRO
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '32px', height: '32px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', position: 'relative', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+        {/* Right Section: Notification & Freelancer Profile */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', position: 'relative' }}>
+          <div style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', position: 'relative', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.03)' }}>
             🔔
-            <span style={{ position: 'absolute', top: '-2px', right: '-2px', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6' }}></span>
+            <span style={{ position: 'absolute', top: '7px', right: '7px', width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#ef4444' }}></span>
           </div>
 
-          <a href="#pricing" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '12px', padding: '6px 12px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.04)' }}>
+          <a href="#pricing" style={{ color: '#cbd5e1', textDecoration: 'none', fontSize: '12px', padding: '7px 12px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.04)', fontWeight: '600' }}>
             Pricing
           </a>
 
-          <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'linear-gradient(135deg, #2563eb, #6366f1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold', color: '#fff', border: '2px solid rgba(255,255,255,0.15)' }}>
-            CG
+          {/* Profile Badge (Clickable) */}
+          <div 
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '3px 8px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)', backgroundColor: 'rgba(255,255,255,0.03)' }}
+          >
+            <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'linear-gradient(135deg, #eab308, #f97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold', color: '#000', boxShadow: '0 0 10px rgba(234,179,8,0.3)' }}>
+              FL
+            </div>
+            <span style={{ fontSize: '12px', color: '#e2e8f0', fontWeight: '600' }}>▾</span>
           </div>
+
+          {/* Profile Dropdown Popup */}
+          {showProfileMenu && (
+            <div style={{ position: 'absolute', top: '48px', right: '0', width: '240px', backgroundColor: '#0c1322', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '14px', padding: '14px', boxShadow: '0 15px 35px rgba(0,0,0,0.7)', zIndex: 100 }}>
+              <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#64748b', fontWeight: '700', letterSpacing: '0.5px' }}>Logged In As</div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#fff', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{userEmail}</div>
+              
+              <div style={{ margin: '10px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }}></div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94a3b8', marginBottom: '8px' }}>
+                <span>Account Status:</span>
+                <span style={{ color: '#eab308', fontWeight: '700' }}>Freelancer Tier</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#94a3b8', marginBottom: '12px' }}>
+                <span>Free Scans Left:</span>
+                <span style={{ color: '#38bdf8', fontWeight: '700' }}>1 Scan</span>
+              </div>
+
+              <a 
+                href={PAYMENT_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'block', textAlign: 'center', backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700', marginBottom: '8px' }}
+              >
+                Upgrade to Pro ($19)
+              </a>
+
+              <button 
+                onClick={() => {
+                  setIsLoggedIn(!isLoggedIn)
+                  setShowProfileMenu(false)
+                }}
+                style={{ width: '100%', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', padding: '6px', borderRadius: '8px', fontSize: '11px', cursor: 'pointer' }}
+              >
+                {isLoggedIn ? 'Sign Out' : 'Sign In as Freelancer'}
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Main Container */}
-      <main style={{ maxWidth: '850px', margin: '0 auto', padding: '24px 16px' }}>
+      <main style={{ maxWidth: '980px', margin: '0 auto', padding: '24px 16px' }}>
         
-        {/* Title & Engine status */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
-          <div>
-            <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#fff', margin: '0 0 4px 0' }}>AI Contract Risk Audit</h1>
-            <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>Paste agreement text below to scan for predatory clauses and high-risk terms.</p>
+        {/* Futuristic Top Bar: 3D Gold Shield & Speedometer Gauge */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>
+          
+          {/* Card 1: 3D Shield Emblem */}
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '20px', display: 'flex', alignItems: 'center', gap: '18px', background: 'radial-gradient(circle at 20% 50%, rgba(234, 179, 8, 0.08), transparent 70%), rgba(13, 19, 33, 0.85)', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+            <div style={{ width: '80px', height: '80px', borderRadius: '18px', background: 'linear-gradient(145deg, #2b2512, #141006)', border: '2px solid rgba(234,179,8,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '38px', boxShadow: 'inset 0 0 15px rgba(234,179,8,0.3), 0 0 25px rgba(234,179,8,0.2)' }}>
+              🛡️
+            </div>
+            <div>
+              <span style={{ fontSize: '11px', fontWeight: '700', color: '#eab308', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Security Engine</span>
+              <h3 style={{ fontSize: '17px', fontWeight: '800', color: '#fff', margin: '3px 0' }}>Contract Perimeter</h3>
+              <p style={{ fontSize: '12px', color: '#94a3b8', margin: 0 }}>Active clause scanner inspecting predatory covenants</p>
+            </div>
           </div>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: '600', color: '#34d399', backgroundColor: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', padding: '4px 10px', borderRadius: '999px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#34d399' }}></span>
-            Engine Ready
-          </span>
+
+          {/* Card 2: Speedometer Gauge (38/100) */}
+          <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+            <div>
+              <span style={{ fontSize: '11px', fontWeight: '700', color: '#f87171', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Risk Index</span>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '2px' }}>
+                <span style={{ fontSize: '34px', fontWeight: '900', color: '#f87171' }}>38</span>
+                <span style={{ fontSize: '14px', color: '#64748b', fontWeight: '700' }}>/ 100</span>
+              </div>
+              <span style={{ display: 'inline-block', backgroundColor: 'rgba(239,68,68,0.15)', color: '#f87171', border: '1px solid rgba(239,68,68,0.3)', padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '800', marginTop: '4px' }}>
+                HIGH RISK DETECTED
+              </span>
+            </div>
+
+            {/* SVG Semi-Circle Speedometer */}
+            <div style={{ width: '110px', height: '70px', position: 'relative' }}>
+              <svg viewBox="0 0 100 55" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                {/* Background Arc */}
+                <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
+                {/* Risk Colored Arc */}
+                <path d="M 10 50 A 40 40 0 0 1 45 15" fill="none" stroke="url(#riskGrad)" strokeWidth="8" strokeLinecap="round" />
+                {/* Needle */}
+                <line x1="50" y1="50" x2="42" y2="18" stroke="#f87171" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="50" cy="50" r="5" fill="#f87171" />
+                <defs>
+                  <linearGradient id="riskGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#ef4444" />
+                    <stop offset="100%" stopColor="#f59e0b" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748b', fontWeight: '700', padding: '0 4px' }}>
+                <span>0</span>
+                <span>100</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* Editor Box */}
-        <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.75)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '16px', marginBottom: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '11px', color: '#94a3b8', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            <span>Document Editor</span>
-            <button onClick={() => setContractText(SAMPLE_CONTRACT)} style={{ background: 'none', border: 'none', color: '#60a5fa', cursor: 'pointer', fontSize: '11px', fontWeight: '600', padding: 0 }}>
-              Reset Sample
+        {/* Mini Breakdown Pills */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', marginBottom: '24px' }}>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+            <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>IP Exposure</span>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: '#f87171', marginTop: '2px' }}>Severely High</div>
+          </div>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+            <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Non-Compete Term</span>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: '#fbbf24', marginTop: '2px' }}>36 Months</div>
+          </div>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+            <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Liability Cap</span>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: '#f87171', marginTop: '2px' }}>$50 Limit</div>
+          </div>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+            <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Fix Priority</span>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: '#38bdf8', marginTop: '2px' }}>4 Critical Edits</div>
+          </div>
+        </div>
+
+        {/* Document Editor Area */}
+        <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '18px', marginBottom: '22px', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '11px', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+            <span>Agreement Workspace</span>
+            <button onClick={() => setContractText(SAMPLE_CONTRACT)} style={{ background: 'none', border: 'none', color: '#38bdf8', cursor: 'pointer', fontSize: '11px', fontWeight: '600', padding: 0 }}>
+              Reset Default Sample
             </button>
           </div>
 
           <textarea 
             value={contractText}
             onChange={(e) => setContractText(e.target.value)}
-            style={{ width: '100%', boxSizing: 'border-box', height: '220px', backgroundColor: '#050811', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '12px', color: '#e2e8f0', fontSize: '12px', fontFamily: 'monospace', lineHeight: '1.6', resize: 'vertical', outline: 'none' }}
-            placeholder="Paste contract text here..."
+            style={{ width: '100%', boxSizing: 'border-box', height: '210px', backgroundColor: '#060a12', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '14px', color: '#e2e8f0', fontSize: '12px', fontFamily: 'monospace', lineHeight: '1.6', resize: 'vertical', outline: 'none' }}
+            placeholder="Paste your client agreement text here..."
           />
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', flexWrap: 'wrap', gap: '10px' }}>
-            <span style={{ fontSize: '11px', color: '#64748b' }}>Auto-detected: NDA / IP Assignment</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px', flexWrap: 'wrap', gap: '10px' }}>
+            <span style={{ fontSize: '11px', color: '#64748b' }}>Detected Document: Standard Freelance Agreement</span>
             <button
               onClick={handleAnalyze}
               disabled={isAnalyzing}
-              style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', boxShadow: '0 4px 14px rgba(37,99,235,0.4)', opacity: isAnalyzing ? 0.6 : 1 }}
+              style={{ backgroundColor: '#2563eb', color: '#fff', border: 'none', padding: '11px 22px', borderRadius: '11px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 16px rgba(37,99,235,0.4)', opacity: isAnalyzing ? 0.6 : 1 }}
             >
-              {isAnalyzing ? 'Scanning Contract...' : '⚡ Analyze Risks Now'}
+              {isAnalyzing ? 'Scanning Clauses...' : '⚡ Audit Agreement'}
             </button>
           </div>
         </div>
 
-        {/* Analysis Results Area */}
-        {result ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
-            {/* Score Card */}
-            <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.3)', borderLeft: '4px solid #ef4444', borderRadius: '14px', padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <span style={{ fontSize: '11px', fontWeight: '700', color: '#f87171', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Overall Assessment</span>
-                <h2 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', margin: '2px 0 0 0' }}>HIGH RISK</h2>
-                <p style={{ fontSize: '12px', color: '#cbd5e1', margin: '4px 0 0 0' }}>{result.summary}</p>
-              </div>
-              <div style={{ textAlign: 'right', minWidth: '70px' }}>
-                <span style={{ fontSize: '32px', fontWeight: '900', color: '#f87171' }}>{result.score}</span>
-                <span style={{ fontSize: '12px', color: '#64748b' }}>/100</span>
-              </div>
+        {/* Identified Vulnerabilities List */}
+        {result && (
+          <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '20px', marginBottom: '22px' }}>
+            <div style={{ fontSize: '12px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '14px', letterSpacing: '0.6px' }}>
+              Detected Vulnerabilities ({result.risks.length})
             </div>
 
-            {/* Vulnerabilities */}
-            <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.75)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '16px' }}>
-              <div style={{ fontSize: '12px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '12px', letterSpacing: '0.5px' }}>
-                Identified Vulnerabilities ({result.risks.length})
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {result.risks.map((risk) => (
-                  <div key={risk.id} style={{ backgroundColor: '#060a14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '12px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff' }}>⚠️ {risk.title}</span>
-                      <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', fontSize: '9px', fontWeight: '700', padding: '2px 6px', borderRadius: '4px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-                        {risk.riskLevel}
-                      </span>
-                    </div>
-                    <p style={{ fontSize: '11px', color: '#94a3b8', margin: '6px 0' }}>{risk.description}</p>
-                    <div style={{ backgroundColor: 'rgba(37, 99, 235, 0.1)', border: '1px solid rgba(37, 99, 235, 0.2)', padding: '6px 10px', borderRadius: '6px', fontSize: '11px', color: '#93c5fd' }}>
-                      💡 <strong>Fix:</strong> {risk.recommendation}
-                    </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {result.risks.map((risk) => (
+                <div key={risk.id} style={{ backgroundColor: '#070b14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>⚠️ {risk.title}</span>
+                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', fontSize: '9px', fontWeight: '800', padding: '3px 8px', borderRadius: '5px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                      {risk.riskLevel}
+                    </span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* Empty state */
-          <div style={{ border: '1px dashed rgba(255,255,255,0.12)', borderRadius: '14px', padding: '32px 16px', textAlign: 'center', marginBottom: '24px', backgroundColor: 'rgba(255,255,255,0.01)' }}>
-            <div style={{ fontSize: '24px', marginBottom: '8px' }}>🛡️</div>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#fff' }}>No Audit Running</div>
-            <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>Tap 'Analyze Risks Now' to run full legal diagnostics.</div>
-          </div>
-        )}
-
-        {/* Pricing Card with Live Dodo Checkout Link */}
-        <div id="pricing" style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', border: '1px solid rgba(37, 99, 235, 0.3)', borderRadius: '14px', padding: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-          <div>
-            <div style={{ fontSize: '15px', fontWeight: '700', color: '#fff' }}>ContractGuard Pro</div>
-            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Unlimited legal scans, PDF export & redline assistant</div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div>
-              <span style={{ fontSize: '24px', fontWeight: '800', color: '#fff' }}>$19</span>
-              <span style={{ fontSize: '10px', color: '#64748b', display: 'block' }}>one-time</span>
-            </div>
-            <a 
-              href={PAYMENT_LINK}
-              target="_blank" 
-              rel="noopener noreferrer" 
-              style={{ backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '10px 18px', borderRadius: '10px', fontSize: '12px', fontWeight: '700', display: 'inline-block', boxShadow: '0 4px 12px rgba(37,99,235,0.3)' }}
-            >
-              Get Pro Access
-            </a>
-          </div>
-        </div>
-
-      </main>
-
-    </div>
-  )
-        }
-              
+                  <p style={{ fontSize: '12px', color: '#94a3b8', margin: '6px 0 10px 0', lineHeight: '1.5' }}>{risk.description}</p>
+                  <div style={{ backgroundColor: 'rgba(37, 99, 235, 0.1)', border: '1px solid rgba(37, 99, 235, 0.25)', padding: '8px 12px', borderRadius: '8px', fontSize: '11px', color: '#93c5fd', lineHeight: '1.4' }}>
+                    💡 <strong>Suggested Revision:</strong> {risk.recommendation}
+                  </div>
+                </div>
+              ))}
+      
