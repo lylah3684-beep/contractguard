@@ -310,4 +310,15 @@ export default function Home() {
               href={PAYMENT_LINK}
               target="_blank" 
               rel="noopener noreferrer" 
-              style={{ backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '11px 20px', borderRadius: '11px', fontSize: '13px', fontWeight: '700', display: 'inline-b
+              style={{ backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '11px 20px', borderRadius: '11px', fontSize: '13px', fontWeight: '700', display: 'inline-block', boxShadow: '0 4px 14px rgba(37,99,235,0.4)' }}
+            >
+              Get Pro Access
+            </a>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  )
+}
