@@ -96,9 +96,7 @@ export default function Home() {
   const [contractText, setContractText] = useState(SAMPLE_CONTRACT)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [result, setResult] = useState<AnalysisResult | null>(null)
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
   const [showProfileMenu, setShowProfileMenu] = useState(false)
-  const [userEmail, setUserEmail] = useState('freelancer@design.studio')
 
   const handleAnalyze = () => {
     setIsAnalyzing(true)
@@ -123,7 +121,7 @@ export default function Home() {
           </span>
         </div>
 
-        {/* Right Section: Notification & Freelancer Profile */}
+        {/* Profile & Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', position: 'relative' }}>
           <div style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', position: 'relative', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.03)' }}>
             🔔
@@ -134,7 +132,7 @@ export default function Home() {
             Pricing
           </a>
 
-          {/* Profile Badge (Clickable) */}
+          {/* Profile Badge */}
           <div 
             onClick={() => setShowProfileMenu(!showProfileMenu)}
             style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '3px 8px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.12)', backgroundColor: 'rgba(255,255,255,0.03)' }}
@@ -145,11 +143,11 @@ export default function Home() {
             <span style={{ fontSize: '12px', color: '#e2e8f0', fontWeight: '600' }}>▾</span>
           </div>
 
-          {/* Profile Dropdown Popup */}
+          {/* Profile Dropdown */}
           {showProfileMenu && (
             <div style={{ position: 'absolute', top: '48px', right: '0', width: '240px', backgroundColor: '#0c1322', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '14px', padding: '14px', boxShadow: '0 15px 35px rgba(0,0,0,0.7)', zIndex: 100 }}>
               <div style={{ fontSize: '11px', textTransform: 'uppercase', color: '#64748b', fontWeight: '700', letterSpacing: '0.5px' }}>Logged In As</div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#fff', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{userEmail}</div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#fff', marginTop: '2px' }}>freelancer@design.studio</div>
               
               <div style={{ margin: '10px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }}></div>
 
@@ -166,20 +164,10 @@ export default function Home() {
                 href={PAYMENT_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: 'block', textAlign: 'center', backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700', marginBottom: '8px' }}
+                style={{ display: 'block', textAlign: 'center', backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700' }}
               >
                 Upgrade to Pro ($19)
               </a>
-
-              <button 
-                onClick={() => {
-                  setIsLoggedIn(!isLoggedIn)
-                  setShowProfileMenu(false)
-                }}
-                style={{ width: '100%', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', padding: '6px', borderRadius: '8px', fontSize: '11px', cursor: 'pointer' }}
-              >
-                {isLoggedIn ? 'Sign Out' : 'Sign In as Freelancer'}
-              </button>
             </div>
           )}
         </div>
@@ -188,18 +176,18 @@ export default function Home() {
       {/* Main Container */}
       <main style={{ maxWidth: '980px', margin: '0 auto', padding: '24px 16px' }}>
         
-        {/* Futuristic Top Bar: 3D Gold Shield & Speedometer Gauge */}
+        {/* Top 3D Shield & Speedometer Gauge Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>
           
           {/* Card 1: 3D Shield Emblem */}
-          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '20px', display: 'flex', alignItems: 'center', gap: '18px', background: 'radial-gradient(circle at 20% 50%, rgba(234, 179, 8, 0.08), transparent 70%), rgba(13, 19, 33, 0.85)', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
-            <div style={{ width: '80px', height: '80px', borderRadius: '18px', background: 'linear-gradient(145deg, #2b2512, #141006)', border: '2px solid rgba(234,179,8,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '38px', boxShadow: 'inset 0 0 15px rgba(234,179,8,0.3), 0 0 25px rgba(234,179,8,0.2)' }}>
+          <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '20px', display: 'flex', alignItems: 'center', gap: '18px', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+            <div style={{ width: '74px', height: '74px', borderRadius: '18px', background: 'linear-gradient(145deg, #2b2512, #141006)', border: '2px solid rgba(234,179,8,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px', boxShadow: 'inset 0 0 15px rgba(234,179,8,0.3), 0 0 25px rgba(234,179,8,0.2)' }}>
               🛡️
             </div>
             <div>
               <span style={{ fontSize: '11px', fontWeight: '700', color: '#eab308', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Security Engine</span>
               <h3 style={{ fontSize: '17px', fontWeight: '800', color: '#fff', margin: '3px 0' }}>Contract Perimeter</h3>
-              <p style={{ fontSize: '12px', color: '#94a3b8', margin: 0 }}>Active clause scanner inspecting predatory covenants</p>
+              <p style={{ fontSize: '12px', color: '#94a3b8', margin: 0 }}>Active clause scanner inspecting predatory terms</p>
             </div>
           </div>
 
@@ -216,22 +204,13 @@ export default function Home() {
               </span>
             </div>
 
-            {/* SVG Semi-Circle Speedometer */}
-            <div style={{ width: '110px', height: '70px', position: 'relative' }}>
-              <svg viewBox="0 0 100 55" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
-                {/* Background Arc */}
+            {/* Speedometer SVG */}
+            <div style={{ width: '110px', height: '65px' }}>
+              <svg viewBox="0 0 100 55" style={{ width: '100%', height: '100%' }}>
                 <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#1e293b" strokeWidth="8" strokeLinecap="round" />
-                {/* Risk Colored Arc */}
-                <path d="M 10 50 A 40 40 0 0 1 45 15" fill="none" stroke="url(#riskGrad)" strokeWidth="8" strokeLinecap="round" />
-                {/* Needle */}
+                <path d="M 10 50 A 40 40 0 0 1 45 15" fill="none" stroke="#ef4444" strokeWidth="8" strokeLinecap="round" />
                 <line x1="50" y1="50" x2="42" y2="18" stroke="#f87171" strokeWidth="3" strokeLinecap="round" />
-                <circle cx="50" cy="50" r="5" fill="#f87171" />
-                <defs>
-                  <linearGradient id="riskGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#ef4444" />
-                    <stop offset="100%" stopColor="#f59e0b" />
-                  </linearGradient>
-                </defs>
+                <circle cx="50" cy="50" r="4" fill="#f87171" />
               </svg>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748b', fontWeight: '700', padding: '0 4px' }}>
                 <span>0</span>
@@ -242,27 +221,27 @@ export default function Home() {
 
         </div>
 
-        {/* Mini Breakdown Pills */}
+        {/* Mini Breakdown Badges */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', marginBottom: '24px' }}>
-          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
             <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>IP Exposure</span>
-            <div style={{ fontSize: '16px', fontWeight: '800', color: '#f87171', marginTop: '2px' }}>Severely High</div>
+            <div style={{ fontSize: '15px', fontWeight: '800', color: '#f87171', marginTop: '2px' }}>Severely High</div>
           </div>
-          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
             <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Non-Compete Term</span>
-            <div style={{ fontSize: '16px', fontWeight: '800', color: '#fbbf24', marginTop: '2px' }}>36 Months</div>
+            <div style={{ fontSize: '15px', fontWeight: '800', color: '#fbbf24', marginTop: '2px' }}>36 Months</div>
           </div>
-          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
             <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Liability Cap</span>
-            <div style={{ fontSize: '16px', fontWeight: '800', color: '#f87171', marginTop: '2px' }}>$50 Limit</div>
+            <div style={{ fontSize: '15px', fontWeight: '800', color: '#f87171', marginTop: '2px' }}>$50 Limit</div>
           </div>
-          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
+          <div style={{ backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
             <span style={{ fontSize: '10px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase' }}>Fix Priority</span>
-            <div style={{ fontSize: '16px', fontWeight: '800', color: '#38bdf8', marginTop: '2px' }}>4 Critical Edits</div>
+            <div style={{ fontSize: '15px', fontWeight: '800', color: '#38bdf8', marginTop: '2px' }}>4 Critical Edits</div>
           </div>
         </div>
 
-        {/* Document Editor Area */}
+        {/* Editor Area */}
         <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '18px', marginBottom: '22px', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', fontSize: '11px', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
             <span>Agreement Workspace</span>
@@ -312,4 +291,23 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-      
+            </div>
+          </div>
+        )}
+
+        {/* Pricing Banner with Dodo Payments */}
+        <div id="pricing" style={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(37, 99, 235, 0.35)', borderRadius: '18px', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', boxShadow: '0 10px 30px rgba(37,99,235,0.1)' }}>
+          <div>
+            <div style={{ fontSize: '16px', fontWeight: '800', color: '#fff' }}>ContractGuard Pro</div>
+            <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>Unlimited audits, redline export & freelancer negotiation templates</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div>
+              <span style={{ fontSize: '26px', fontWeight: '900', color: '#fff' }}>$19</span>
+              <span style={{ fontSize: '10px', color: '#64748b', display: 'block' }}>one-time access</span>
+            </div>
+            <a 
+              href={PAYMENT_LINK}
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ backgroundColor: '#2563eb', color: '#fff', textDecoration: 'none', padding: '11px 20px', borderRadius: '11px', fontSize: '13px', fontWeight: '700', display: 'inline-b
