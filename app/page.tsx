@@ -253,7 +253,7 @@ export default function Home() {
           <textarea 
             value={contractText}
             onChange={(e) => setContractText(e.target.value)}
-            style={{ width: '100%', boxSizing: 'border-box', height: '210px', backgroundColor: '#060a12', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '14px', color: '#e2e8f0', fontSize: '12px', fontFamily: 'monospace', lineHeight: '1.6', resize: 'vertical', outline: 'none' }}
+            style={{ width: '100%', boxSizing: 'border-box', height: '210px', backgroundColor: '#060a12', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '14px', color: '#e2e8f0', fontSize: '13px', fontFamily: 'monospace', lineHeight: '1.6', resize: 'vertical', outline: 'none' }}
             placeholder="Paste your client agreement text here..."
           />
 
@@ -269,25 +269,27 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Identified Vulnerabilities List */}
+        {/* Identified Vulnerabilities List (Enhanced Typography & Readability) */}
         {result && (
-          <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '20px', marginBottom: '22px' }}>
-            <div style={{ fontSize: '12px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '14px', letterSpacing: '0.6px' }}>
+          <div style={{ backgroundColor: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '18px', padding: '22px', marginBottom: '22px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '16px', letterSpacing: '0.6px' }}>
               Detected Vulnerabilities ({result.risks.length})
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {result.risks.map((risk) => (
-                <div key={risk.id} style={{ backgroundColor: '#070b14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '14px' }}>
+                <div key={risk.id} style={{ backgroundColor: '#070b14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '18px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>⚠️ {risk.title}</span>
-                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#f87171', fontSize: '9px', fontWeight: '800', padding: '3px 8px', borderRadius: '5px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                    <span style={{ fontSize: '15px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.2px' }}>⚠️ {risk.title}</span>
+                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.18)', color: '#f87171', fontSize: '11px', fontWeight: '800', padding: '4px 10px', borderRadius: '6px', border: '1px solid rgba(239, 68, 68, 0.35)' }}>
                       {risk.riskLevel}
                     </span>
                   </div>
-                  <p style={{ fontSize: '12px', color: '#94a3b8', margin: '6px 0 10px 0', lineHeight: '1.5' }}>{risk.description}</p>
-                  <div style={{ backgroundColor: 'rgba(37, 99, 235, 0.1)', border: '1px solid rgba(37, 99, 235, 0.25)', padding: '8px 12px', borderRadius: '8px', fontSize: '11px', color: '#93c5fd', lineHeight: '1.4' }}>
-                    💡 <strong>Suggested Revision:</strong> {risk.recommendation}
+                  <p style={{ fontSize: '14px', color: '#cbd5e1', margin: '10px 0 14px 0', lineHeight: '1.6' }}>
+                    {risk.description}
+                  </p>
+                  <div style={{ backgroundColor: 'rgba(37, 99, 235, 0.12)', border: '1px solid rgba(59, 130, 246, 0.3)', padding: '12px 14px', borderRadius: '10px', fontSize: '13px', color: '#bfdbfe', lineHeight: '1.5' }}>
+                    💡 <strong style={{ color: '#60a5fa' }}>Suggested Revision:</strong> {risk.recommendation}
                   </div>
                 </div>
               ))}
