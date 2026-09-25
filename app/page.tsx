@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface RiskItem {
   id: string;
@@ -40,7 +40,6 @@ function analyzeContract(text: string): AnalysisResult {
   const risks: RiskItem[] = [];
   const lower = text.toLowerCase();
 
-  // Free Tier Risk 1
   if (lower.includes("perpetuity") || lower.includes("indefinitely")) {
     risks.push({
       id: "1",
@@ -53,7 +52,6 @@ function analyzeContract(text: string): AnalysisResult {
     });
   }
 
-  // Free Tier Risk 2
   if (lower.includes("personal time") || lower.includes("personal devices") || lower.includes("inventions")) {
     risks.push({
       id: "2",
@@ -66,21 +64,7 @@ function analyzeContract(text: string): AnalysisResult {
     });
   }
 
-  // Locked Pro Risk 3 (Vercel-style Pro lock)
-  if (lower.includes("non-competition") || lower.includes("competes") || lower.includes("three (3) years")) {
-    risks.push({
-      id: "3",
-      clause: "Restrictive Non-Compete",
-      riskLevel: "HIGH",
-      title: "Unreasonable Global Non-Compete (Pro Scan)",
-      description: "Restricts working anywhere globally for 3 years, severely harming career mobility.",
-      recommendation: "Limit to direct competitors, reduce duration to 6-12 months, and specify geographic bounds.",
-      isLocked: true
-    });
-  }
-
-  // Locked Pro Risk 4 (Vercel-style Pro lock)
-  if (lower.includes("indemnify") || lower.includes("uncapped") || lower.includes("$50")) {
+if (lower.includes("indemnify") || lower.includes("uncapped") || lower.includes("$50")) {
     risks.push({
       id: "4",
       clause: "Asymmetric Liability & Indemnity",
@@ -106,12 +90,36 @@ function analyzeContract(text: string): AnalysisResult {
     risks: risks
   };
 }
-
 export default function Home() {
   const [contractText, setContractText] = useState(SAMPLE_CONTRACT);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  
+  // Auth Modal & State
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [inputEmail, setInputEmail] = useState("");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("cg_user_email");
+    if (saved) setUserEmail(saved);
+  }, []);
+
+  const handleLogin = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const emailToSave = inputEmail.trim() || "freelancer@dev.studio";
+    setUserEmail(emailToSave);
+    localStorage.setItem("cg_user_email", emailToSave);
+    setShowAuthModal(false);
+    setInputEmail("");
+  };
+
+ const handleLogout = () => {
+    setUserEmail(null);
+    localStorage.removeItem("cg_user_email");
+    setShowProfileMenu(false);
+  };
 
   const handleAnalyze = () => {
     if (!contractText.trim()) return;
@@ -124,7 +132,7 @@ export default function Home() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#070b12", color: "#f1f5f9", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Top Navbar with Logo and Profile Controls */}
+      {/* Top Navbar */}
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", backgroundColor: "rgba(7, 11, 18, 0.85)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 50 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ width: "34px", height: "34px", borderRadius: "9px", background: "linear-gradient(135deg, #2563eb, #3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "900", color: "#fff" }}>
@@ -136,8 +144,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Profile & Account Dropdown (Vercel-Style) */}
-        <div style={{ display: "flex", alignItems: "center", gap: "14px", position: "relative" }}>
+        {/* Profile & Controls */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", position: "relative" }}>
           <a
             href={PAYMENT_LINK}
             target="_blank"
@@ -147,39 +155,45 @@ export default function Home() {
             <span>🔒 Unlock Pro</span>
           </a>
 
-          {/* User Avatar Badge */}
-          <div 
-            onClick={() => setShowProfileMenu(!showProfileMenu)} 
-            style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", padding: "4px 8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.03)" }}
-          >
-            <div style={{ width: "26px", height: "26px", borderRadius: "50%", background: "linear-gradient(135deg, #3b82f6, #8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", color: "#fff" }}>
-              FL
+         {userEmail ? (
+            <div 
+              onClick={() => setShowProfileMenu(!showProfileMenu)} 
+              style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", padding: "4px 8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.03)" }}
+            >
+              <div style={{ width: "26px", height: "26px", borderRadius: "50%", background: "linear-gradient(135deg, #3b82f6, #8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", color: "#fff" }}>
+                {userEmail.substring(0, 2).toUpperCase()}
+              </div>
+              <span style={{ fontSize: "12px", color: "#e2e8f0", maxWidth: "90px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{userEmail.split('@')[0]}</span>
             </div>
-            <span style={{ fontSize: "12px", color: "#e2e8f0", fontWeight: "500" }}>Freelancer</span>
-          </div>
+          ) : (
+            <button
+              onClick={() => setShowAuthModal(true)}
+              style={{ backgroundColor: "#2563eb", color: "#fff", border: "none", padding: "6px 14px", borderRadius: "8px", fontSize: "12px", fontWeight: "700", cursor: "pointer" }}
+            >
+              Sign In
+            </button>
+          )}
 
-          {/* Dropdown Menu */}
-          {showProfileMenu && (
-            <div style={{ position: "absolute", top: "46px", right: 0, width: "240px", backgroundColor: "#0c1322", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "10px", padding: "14px", zIndex: 100, boxShadow: "0 12px 30px rgba(0,0,0,0.6)" }}>
-              <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: "700", letterSpacing: "0.5px" }}>Account Profile</div>
-              <div style={{ fontSize: "13px", fontWeight: "700", color: "#ffffff", marginTop: "4px" }}>freelancer@design.dev</div>
+          {/* Profile Dropdown */}
+          {showProfileMenu && userEmail && (
+            <div style={{ position: "absolute", top: "46px", right: 0, width: "230px", backgroundColor: "#0c1322", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "10px", padding: "14px", zIndex: 100, boxShadow: "0 12px 30px rgba(0,0,0,0.6)" }}>
+              <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: "700" }}>Account Profile</div>
+              <div style={{ fontSize: "13px", fontWeight: "700", color: "#ffffff", marginTop: "3px", overflow: "hidden", textOverflow: "ellipsis" }}>{userEmail}</div>
               <div style={{ fontSize: "11px", color: "#38bdf8", marginTop: "2px" }}>Active Tier: Free Auditor</div>
               
               <div style={{ margin: "12px 0", borderTop: "1px solid rgba(255,255,255,0.06)" }} />
 
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "8px", color: "#94a3b8" }}>
-                <span>Free Scans Remaining:</span>
+                <span>Free Audits Left:</span>
                 <span style={{ color: "#38bdf8", fontWeight: "700" }}>3 / 3</span>
               </div>
 
-              <a 
-                href={PAYMENT_LINK} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                style={{ display: "block", textAlign: "center", backgroundColor: "#2563eb", color: "#fff", textDecoration: "none", padding: "9px", borderRadius: "6px", fontSize: "12px", fontWeight: "700", marginTop: "10px" }}
+              <button
+                onClick={handleLogout}
+                style={{ width: "100%", background: "rgba(239, 68, 68, 0.1)", border: "1px solid rgba(239, 68, 68, 0.25)", color: "#f87171", padding: "7px", borderRadius: "6px", fontSize: "12px", cursor: "pointer", marginTop: "6px", fontWeight: "600" }}
               >
-                Upgrade to Lifetime Pro ($19)
-              </a>
+                Sign Out
+              </button>
             </div>
           )}
         </div>
@@ -296,7 +310,6 @@ export default function Home() {
                     overflow: "hidden"
                   }}
                 >
-                  {/* Vercel-style Pro Lock Overlay */}
                   {risk.isLocked && (
                     <div style={{
                       position: "absolute",
@@ -337,8 +350,7 @@ export default function Home() {
                     </div>
                   )}
 
-                  {/* Normal Risk Content */}
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
                     <span style={{ fontSize: "15px", fontWeight: "700", color: "#ffffff" }}>{risk.title}</span>
                     <span style={{ backgroundColor: "rgba(239, 68, 68, 0.15)", color: "#f87171", fontSize: "11px", fontWeight: "700", padding: "2px 6px", borderRadius: "4px" }}>{risk.riskLevel} RISK</span>
                   </div>
@@ -353,6 +365,60 @@ export default function Home() {
         )}
 
       </main>
+
+      {/* AUTH POPUP / SIGN-IN MODAL */}
+      {showAuthModal && (
+        <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: "16px" }}>
+          <div style={{ backgroundColor: "#0c1322", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "14px", width: "100%", maxWidth: "360px", padding: "24px", position: "relative" }}>
+            <button 
+              onClick={() => setShowAuthModal(false)}
+              style={{ position: "absolute", top: "14px", right: "14px", background: "none", border: "none", color: "#64748b", fontSize: "18px", cursor: "pointer" }}
+            >
+              ✕
+            </button>
+            <div style={{ textAlign: "center", marginBottom: "18px" }}>
+              <div style={{ fontSize: "28px", marginBottom: "6px" }}>🛡️</div>
+              <h3 style={{ fontSize: "18px", fontWeight: "800", color: "#fff", margin: "0 0 6px 0" }}>Sign In to ContractGuard</h3>
+              <p style={{ fontSize: "12px", color: "#94a3b8", margin: 0 }}>Save your contract audits and access pro tools.</p>
+            </div>
+
+            <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <input
+                type="email"
+                required
+                value={inputEmail}
+                onChange={(e) => setInputEmail(e.target.value)}
+                placeholder="developer@company.com"
+                style={{ backgroundColor: "#060a12", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "8px", padding: "10px 12px", color: "#fff", fontSize: "13px", outline: "none" }}
+              />
+              <button
+                type="submit"
+                style={{ backgroundColor: "#2563eb", color: "#fff", border: "none", padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "700", cursor: "pointer" }}
+              >
+                Continue with Email
+              </button>
+            </form>
+
+            <div style={{ margin: "14px 0", display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.08)" }} />
+              <span style={{ fontSize: "11px", color: "#64748b" }}>OR</span>
+              <div style={{ flex: 1, height: "1px", backgroundColor: "rgba(255,255,255,0.08)" }} />
+            </div>
+
+            <button
+              onClick={() => {
+                setUserEmail("developer.guest@gmail.com");
+                localStorage.setItem("cg_user_email", "developer.guest@gmail.com");
+                setShowAuthModal(false);
+              }}
+              style={{ width: "100%", backgroundColor: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "#e2e8f0", padding: "9px", borderRadius: "8px", fontSize: "12px", fontWeight: "600", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+            >
+              <span>⚡</span> Continue as Demo User
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
-                       }
+}
