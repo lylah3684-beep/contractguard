@@ -66,7 +66,7 @@ function analyzeContract(text: string): AnalysisResult {
     });
   }
 
-  // Locked Pro Risk 3 (Vercel-style Pro feature)
+  // Locked Pro Risk 3 (Vercel-style Pro lock)
   if (lower.includes("non-competition") || lower.includes("competes") || lower.includes("three (3) years")) {
     risks.push({
       id: "3",
@@ -79,7 +79,7 @@ function analyzeContract(text: string): AnalysisResult {
     });
   }
 
-  // Locked Pro Risk 4 (Vercel-style Pro feature)
+  // Locked Pro Risk 4 (Vercel-style Pro lock)
   if (lower.includes("indemnify") || lower.includes("uncapped") || lower.includes("$50")) {
     risks.push({
       id: "4",
@@ -111,6 +111,7 @@ export default function Home() {
   const [contractText, setContractText] = useState(SAMPLE_CONTRACT);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleAnalyze = () => {
     if (!contractText.trim()) return;
@@ -123,26 +124,65 @@ export default function Home() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#070b12", color: "#f1f5f9", fontFamily: "system-ui, -apple-system, sans-serif" }}>
-      {/* Top Navbar */}
-      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", borderBottom: "1px solid rgba(255,255,255,0.06)", backgroundColor: "rgba(7, 11, 18, 0.85)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 50 }}>
+      {/* Top Navbar with Logo and Profile Controls */}
+      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", backgroundColor: "rgba(7, 11, 18, 0.85)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 50 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ width: "34px", height: "34px", borderRadius: "9px", background: "linear-gradient(135deg, #2563eb, #3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "900", color: "#fff" }}>
             🛡️
           </div>
           <div>
             <span style={{ fontWeight: "800", fontSize: "16px", color: "#ffffff", letterSpacing: "-0.3px" }}>ContractGuard</span>
-            <span style={{ marginLeft: "8px", fontSize: "10px", fontWeight: "700", color: "#38bdf8", backgroundColor: "rgba(56, 189, 248, 0.12)", padding: "2px 6px", borderRadius: "4px" }}>FREE TIER</span>
+            <span style={{ marginLeft: "8px", fontSize: "10px", fontWeight: "700", color: "#38bdf8", backgroundColor: "rgba(56, 189, 248, 0.12)", padding: "2px 6px", borderRadius: "4px" }}>STUDIO PRO</span>
           </div>
         </div>
 
-        <a
-          href={PAYMENT_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ backgroundColor: "rgba(37, 99, 235, 0.15)", border: "1px solid rgba(37, 99, 235, 0.4)", color: "#60a5fa", textDecoration: "none", padding: "7px 14px", borderRadius: "8px", fontSize: "12px", fontWeight: "700", display: "flex", alignItems: "center", gap: "6px" }}
-        >
-          <span>🔒 Unlock Full Pro</span>
-        </a>
+        {/* Profile & Account Dropdown (Vercel-Style) */}
+        <div style={{ display: "flex", alignItems: "center", gap: "14px", position: "relative" }}>
+          <a
+            href={PAYMENT_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ backgroundColor: "rgba(37, 99, 235, 0.15)", border: "1px solid rgba(37, 99, 235, 0.4)", color: "#60a5fa", textDecoration: "none", padding: "6px 12px", borderRadius: "8px", fontSize: "12px", fontWeight: "700", display: "flex", alignItems: "center", gap: "6px" }}
+          >
+            <span>🔒 Unlock Pro</span>
+          </a>
+
+          {/* User Avatar Badge */}
+          <div 
+            onClick={() => setShowProfileMenu(!showProfileMenu)} 
+            style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", padding: "4px 8px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.03)" }}
+          >
+            <div style={{ width: "26px", height: "26px", borderRadius: "50%", background: "linear-gradient(135deg, #3b82f6, #8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", color: "#fff" }}>
+              FL
+            </div>
+            <span style={{ fontSize: "12px", color: "#e2e8f0", fontWeight: "500" }}>Freelancer</span>
+          </div>
+
+          {/* Dropdown Menu */}
+          {showProfileMenu && (
+            <div style={{ position: "absolute", top: "46px", right: 0, width: "240px", backgroundColor: "#0c1322", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "10px", padding: "14px", zIndex: 100, boxShadow: "0 12px 30px rgba(0,0,0,0.6)" }}>
+              <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: "700", letterSpacing: "0.5px" }}>Account Profile</div>
+              <div style={{ fontSize: "13px", fontWeight: "700", color: "#ffffff", marginTop: "4px" }}>freelancer@design.dev</div>
+              <div style={{ fontSize: "11px", color: "#38bdf8", marginTop: "2px" }}>Active Tier: Free Auditor</div>
+              
+              <div style={{ margin: "12px 0", borderTop: "1px solid rgba(255,255,255,0.06)" }} />
+
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "8px", color: "#94a3b8" }}>
+                <span>Free Scans Remaining:</span>
+                <span style={{ color: "#38bdf8", fontWeight: "700" }}>3 / 3</span>
+              </div>
+
+              <a 
+                href={PAYMENT_LINK} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ display: "block", textAlign: "center", backgroundColor: "#2563eb", color: "#fff", textDecoration: "none", padding: "9px", borderRadius: "6px", fontSize: "12px", fontWeight: "700", marginTop: "10px" }}
+              >
+                Upgrade to Lifetime Pro ($19)
+              </a>
+            </div>
+          )}
+        </div>
       </header>
 
       {/* Main Container */}
@@ -315,5 +355,4 @@ export default function Home() {
       </main>
     </div>
   );
-      }
-      
+                       }
